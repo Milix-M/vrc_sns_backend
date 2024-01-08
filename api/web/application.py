@@ -10,6 +10,10 @@ def get_app() -> FastAPI:
 
     app = FastAPI()
 
+    #スタートアップ/シャットダウン時のイベントを追加
+    register_startup_event(app)
+    register_shutdown_event(app)
+
     app.include_router(router=api_router, prefix="/api")
 
     return app
