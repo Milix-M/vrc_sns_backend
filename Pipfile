@@ -11,6 +11,7 @@ passlib = "*"
 bcrypt = "*"
 yarl = "*"
 aiosqlite = "*"
+taskiq = "*"
 
 [dev-packages]
 
