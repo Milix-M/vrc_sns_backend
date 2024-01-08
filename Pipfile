@@ -12,6 +12,7 @@ bcrypt = "*"
 yarl = "*"
 aiosqlite = "*"
 taskiq = "*"
+starlette = "*"
 
 [dev-packages]
 
