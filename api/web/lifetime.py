@@ -11,9 +11,10 @@ def _setup_db(app: FastAPI) -> None:
 
     :param app: fastAPI application.
     """
-    engine =create_async_engine(str(settings.db_url))
+    engine =create_async_engine(str(settings.db_url), future=True, echo=settings.db_echo)
     session_factory = async_sessionmaker(
-        engine
+        engine,
+        expire_on_commit = False,
     )
     app.state.db_engine = engine
     app.state.db_session_factory = session_factory
