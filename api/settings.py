@@ -13,6 +13,7 @@ class Settings():
     db_user = ""
     db_pass = ""
     db_base = "//sns_app.db"
+    db_echo = True
 
     @property
     def db_url(self) -> URL:
