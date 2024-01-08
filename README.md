@@ -5,3 +5,6 @@ pipenvを使用しています
 ```bash
 pipenv install
 ```
+
+## Todo
+- 本番環境用にDockerを導入してデータベースをPostgreSQLに変更する
