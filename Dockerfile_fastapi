@@ -1,0 +1,14 @@
+FROM python:3.11-slim-bookworm
+
+RUN apt-get update && apt-get upgrade -y
+
+RUN mkdir -p /root/src
+WORKDIR /root/src
+
+COPY Pipfile Pipfile.lock ./
+
+
+RUN pip install pipenv \
+    && pipenv install --system
+
+CMD ["python", "-m", "api"]
