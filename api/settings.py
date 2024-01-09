@@ -23,7 +23,7 @@ class Settings():
         :return: database URL.
         """
         return URL.build(
-            scheme="sqlite+aiosqlite",
+            scheme="postgresql+asyncpg",
             host=self.db_host,
             port=self.db_port,
             user=self.db_user,
