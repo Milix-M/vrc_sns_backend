@@ -1,9 +1,8 @@
 # vrc_sns_backend
 
-## 環境構築
-pipenvを使用しています
+## Docker
 ```bash
-pipenv install
+docker-compose up
 ```
 
 ## Todo
