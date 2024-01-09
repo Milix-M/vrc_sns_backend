@@ -10,9 +10,9 @@ pydantic = "*"
 passlib = "*"
 bcrypt = "*"
 yarl = "*"
-aiosqlite = "*"
 taskiq = "*"
 starlette = "*"
+asyncpg = "*"
 
 [dev-packages]
 
