@@ -6,7 +6,7 @@ from api.db.models.user_model import User
 
 def create_database() -> None:
     """Create a database."""
-    engine:str = create_engine(settings.db_url)
+    engine:str = create_engine(settings.db_url, isolation_level='AUTOCOMMIT')
 
     User.metadata.create_all(engine)
 
