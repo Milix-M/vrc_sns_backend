@@ -13,6 +13,7 @@ yarl = "*"
 aiosqlite = "*"
 taskiq = "*"
 starlette = "*"
+asyncpg = "*"
 
 [dev-packages]
 
