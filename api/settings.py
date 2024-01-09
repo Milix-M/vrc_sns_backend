@@ -8,11 +8,11 @@ class Settings():
     port : int = 8000
     reload: bool = True
 
-    db_host = ""
-    db_port = 0
-    db_user = ""
-    db_pass = ""
-    db_base = "//sns_app.db"
+    db_host = "db"
+    db_port = 5432
+    db_user = "postgres"
+    db_pass = "password"
+    db_base = "app"
     db_echo = True
 
     @property
