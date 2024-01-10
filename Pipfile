@@ -14,6 +14,7 @@ taskiq = "*"
 starlette = "*"
 asyncpg = "*"
 alembic = "*"
+black = "*"
 
 [dev-packages]
 
