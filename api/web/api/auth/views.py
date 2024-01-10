@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, HTTPException
 
 from api.web.api.users.schema import User, UserCreate
 from api.db.dao.user_dao import UserDAO
@@ -19,5 +19,4 @@ async def create_user(
         email=user.email,
         password=user.password
         )
-
     #todo 続きを書く
