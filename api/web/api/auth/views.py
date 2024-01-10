@@ -13,6 +13,10 @@ async def create_user(
     """
     Create User endpoint.
     """
+    db_userid = await user_dao.get_user_by_userid(user.userid)
+    if db_userid:
+        raise HTTPException(status_code=400, detail="userid is already registered")
+
     return await user_dao.create_user(
         userid=user.userid,
         username=user.username,
