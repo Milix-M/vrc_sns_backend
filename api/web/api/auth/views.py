@@ -13,11 +13,11 @@ async def create_user(
     """
     Create User endpoint.
     """
-    users = await user_dao.create_user(
+    return await user_dao.create_user(
         userid=user.userid,
         username=user.username,
         email=user.email,
         password=user.password
         )
-    return users
+
     #todo 続きを書く
