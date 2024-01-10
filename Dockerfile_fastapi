@@ -6,6 +6,7 @@ RUN mkdir -p /root/src
 WORKDIR /root/src
 
 COPY Pipfile Pipfile.lock ./
+COPY alembic.ini ./
 
 
 RUN pip install pipenv \
