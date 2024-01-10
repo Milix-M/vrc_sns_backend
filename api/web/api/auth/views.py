@@ -5,7 +5,7 @@ from api.db.dao.user_dao import UserDAO
 
 router = APIRouter()
 
-@router.post("/signin")
+@router.post("/signin", response_model=User)
 async def create_user(
     user: UserCreate,
     user_dao: UserDAO = Depends(),
@@ -13,11 +13,11 @@ async def create_user(
     """
     Create User endpoint.
     """
-    await user_dao.create_user(
+    users = await user_dao.create_user(
         userid=user.userid,
         username=user.username,
         email=user.email,
         password=user.password
         )
-    return
+    return users
     #todo 続きを書く
