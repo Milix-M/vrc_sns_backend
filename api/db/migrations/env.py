@@ -6,9 +6,10 @@ from sqlalchemy.ext.asyncio.engine import create_async_engine
 from sqlalchemy.future import Connection
 
 from api.db.meta import meta
-from api.db.models import user_model
+from api.db.models import load_all_models
 from api.settings import settings
 
+load_all_models()
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
