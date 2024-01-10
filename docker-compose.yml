@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_fastapi
+    image: fastapi:${API_VERSION:-latest}
     container_name: 'fastapi'
     working_dir: '/root/src'
     ports:
@@ -15,7 +16,8 @@ services:
 
     tty: true
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:16
@@ -26,8 +28,28 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=app
     ports:
       - 5432:5432
+    healthcheck:
+      test: pg_isready -U postgres -d app
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+  migrator:
+    container_name: migrator
+    image: fastapi:${API_VERSION:-latest}
+    restart: on-failure
+    volumes:
+      - ./api:/root/src/api
+    command: python -m alembic upgrade head
+    depends_on:
+      db:
+        condition: service_healthy
+      fastapi:
+        condition: service_started
+
 
 volumes:
   postgres_data:

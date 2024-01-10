@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, HTTPException
 
 from api.web.api.users.schema import User, UserCreate
 from api.db.dao.user_dao import UserDAO
 
 router = APIRouter()
 
-@router.post("/signin")
+@router.post("/signin", response_model=User)
 async def create_user(
     user: UserCreate,
     user_dao: UserDAO = Depends(),
@@ -13,11 +13,19 @@ async def create_user(
     """
     Create User endpoint.
     """
-    await user_dao.create_user(
+    db_userid = await user_dao.get_user_by_userid(user.userid)
+    db_email = await user_dao.get_user_by_email(user.email)
+
+    if db_userid:
+        raise HTTPException(status_code=400, detail="userid is already registered")
+
+    if db_email:
+        raise HTTPException(status_code=400, detail="email is already registered")
+
+    return await user_dao.create_user(
         userid=user.userid,
         username=user.username,
         email=user.email,
         password=user.password
         )
-    return
     #todo 続きを書く

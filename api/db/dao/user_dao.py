@@ -1,5 +1,7 @@
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Optional
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from fastapi import Depends
 
 from api.db.dependencies import get_db_session
@@ -22,4 +24,29 @@ class UserDAO:
         await self.session.commit()
 
         return user
-        # todo 続きを書く
+
+    async def get_user_by_userid(self, userid: str):
+        """Function can get the user from user_userid.
+
+        If not found, return None.
+
+        :param userid: email of the user you want to get.
+        :returns: if not found user, will return None.
+        """
+        query = select(User).where(User.userid == userid)
+        rows = await self.session.execute(query)
+
+        return rows.scalar_one_or_none()
+
+    async def get_user_by_email(self, email: str):
+        """Function can get the user from user_email.
+
+        If not found, return None.
+
+        :param userid: email of the user you want to get.
+        :returns: if not found user, will return None.
+        """
+        query = select(User).where(User.email == email)
+        rows = await self.session.execute(query)
+
+        return rows.scalar_one_or_none()

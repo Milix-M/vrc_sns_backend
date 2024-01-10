@@ -1,3 +1,15 @@
-from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
 
-Base = declarative_base()
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import Column, DateTime, func
+
+from api.db.meta import meta
+
+
+class Base(DeclarativeBase):
+    """Base for all models."""
+
+    metadata = meta
+
+    created_at = Column(DateTime, default=func.now(), nullable=False)
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
