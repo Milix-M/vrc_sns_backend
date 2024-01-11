@@ -50,7 +50,7 @@ class TokenCodeDAO:
     async def expire_code(self, token_code_id: int) -> None:
         token_code: Optional[TokenCode] = await self.get_code(token_code_id)
         if token_code is not None:
-            if not token_code.is_valid()
+            if not token_code.is_valid():
                 token_code.is_used = True
             elif token_code.is_used:
                 raise SealAlreadyExpiredError()
