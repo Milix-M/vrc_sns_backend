@@ -9,6 +9,9 @@ from sqlalchemy.sql.expression import false
 from api.db.dependencies import get_db_session
 from api.db.models.token_code_model import TokenCode
 
+class SealAlreadyExpiredError(Exception):
+    """ "Error when tried to expire token_code was expired."""
+
 class TokenCodeDAO:
     """Class for accessing token_code table."""
 
