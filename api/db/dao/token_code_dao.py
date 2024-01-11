@@ -60,6 +60,13 @@ class TokenCodeDAO:
         else:
             raise SealNotFoundError()
 
+    async def is_seal_exist(self, seal: str) -> None:
+        query = select(TokenCode)
+        query = query.filter(TokenCode.seal == seal)
+        row = await self.session.execute(query)
+
+        return row.scalar_one_or_none() is not None
+
     async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
         query = select(TokenCode)
         query = query.filter(
