@@ -23,6 +23,13 @@ class TokenCodeDAO:
 
         return seal
 
+    async def create_code(self, user_id: int) -> str:
+        seal = await self.generate_seal()
+        self.session.add(
+            TokenCode(user_id=user_id, seal=seal),
+        )
+
+        return seal
 
     async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
         query = select(TokenCode)
