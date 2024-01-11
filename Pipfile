@@ -15,6 +15,7 @@ starlette = "*"
 asyncpg = "*"
 alembic = "*"
 black = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
 
 [dev-packages]
 
