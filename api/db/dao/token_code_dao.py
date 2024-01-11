@@ -35,6 +35,15 @@ class TokenCodeDAO:
         code = await self.session.get(TokenCode, token_code_id)
         return code
 
+    async def get_code_from_seal(self, seal: str) -> Optional[TokenCode]:
+        query = select(TokenCode)
+        query = query.filter(
+            and_(TokenCode.seal == seal, TokenCode.is_used == False),
+        )
+        rows = await self.session.execute(query)
+
+        return rows.scalar_one_or_none()
+
     async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
         query = select(TokenCode)
         query = query.filter(
