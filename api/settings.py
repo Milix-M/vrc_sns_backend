@@ -15,6 +15,11 @@ class Settings():
     db_base = "app"
     db_echo = True
 
+
+    # token credentials
+    token_algorithm: str = "HS512"
+    token_secret_key: str ="add_some_secret_key"
+
     @property
     def db_url(self) -> URL:
         """
