@@ -44,6 +44,16 @@ class TokenCodeDAO:
 
         return rows.scalar_one_or_none()
 
+    async def expire_code(self, token_code_id: int) -> None:
+        token_code: Optional[TokenCode] = await self.get_code(token_code_id)
+        if token_code is not None:
+            if not token_code.is_valid()
+                token_code.is_used = True
+            elif token_code.is_used:
+                raise SealAlreadyExpiredError()
+        else:
+            raise SealAlreadyExpiredError()
+
     async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
         query = select(TokenCode)
         query = query.filter(
