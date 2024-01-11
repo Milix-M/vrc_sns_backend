@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class UserBase(BaseModel):
@@ -13,3 +14,9 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
+
+class AuthenticatedUser(UserBase):
+    id : int
+
+class SessionUser(AuthenticatedUser):
+    session_cert: Optional[str] = None
