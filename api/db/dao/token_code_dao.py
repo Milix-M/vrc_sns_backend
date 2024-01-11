@@ -58,7 +58,7 @@ class TokenCodeDAO:
             elif token_code.is_used:
                 raise SealAlreadyExpiredError()
         else:
-            raise SealAlreadyExpiredError()
+            raise SealNotFoundError()
 
     async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
         query = select(TokenCode)
