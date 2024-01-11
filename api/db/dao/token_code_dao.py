@@ -12,6 +12,9 @@ from api.db.models.token_code_model import TokenCode
 class SealAlreadyExpiredError(Exception):
     """ "Error when tried to expire token_code was expired."""
 
+class SealNotFoundError(Exception):
+    """Error when not found token_code in database."""
+
 class TokenCodeDAO:
     """Class for accessing token_code table."""
 
