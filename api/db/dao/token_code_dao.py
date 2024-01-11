@@ -1,0 +1,34 @@
+import secrets
+from typing import Optional
+
+from fastapi import Depends
+from sqlalchemy import and_, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.expression import false
+
+from api.db.dependencies import get_db_session
+from api.db.models.token_code_model import TokenCode
+
+class TokenCodeDAO:
+    """Class for accessing token_code table."""
+
+    def __init__(self, session: AsyncSession = Depends(get_db_session)):
+        self.session = session
+
+    async def generate_seal(self, nbytes: Optional[int] = 64) -> str:
+        seal = secrets.token_urlsafe(nbytes)
+
+        if await self.is_seal_exist_in_not_expired(seal):
+            return await self.generate_seal()
+
+        return seal
+
+
+    async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
+        query = select(TokenCode)
+        query = query.filter(
+            and_(TokenCode.seal == seal, TokenCode.is_valid() == false())
+        )
+        row = await self.session.execute(query)
+
+        return row.scalar_one_or_none() is not None
