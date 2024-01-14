@@ -1,8 +1,10 @@
 from pydantic import BaseModel
 
-class Post(BaseModel):
-    id: int
+class PostBase(BaseModel):
     userid: int
     content: str
+
+class Post(PostBase):
+    id: int
     like: int
     repost: int
