@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from api.db.dao.post_dao import PostDAO
-from api.web.api.post.schema import PostBase, Post
+from api.web.api.post.schema import PostBase, Post, ShowPost
 
 router = APIRouter()
 
@@ -20,8 +20,12 @@ async def add_post(
 
 @router.post("/show", response_model=Post)
 async def get_post(
+    post: ShowPost,
+    post_dao: PostDAO = Depends(),
 ):
-    return
+    return await post_dao.get_post_by_id(
+        postid=post.id
+    )
 
 
 @router.post("/delete")
