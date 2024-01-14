@@ -18,7 +18,7 @@ async def add_post(
     # Todo Validationする、useridじゃなくてcredentialを必須としてそのcredentialに紐付けられているユーザーからpostできるようにする
 
 
-@router.post("/get-post", response_model=Post)
+@router.post("/show", response_model=Post)
 async def get_post(
 ):
     return
