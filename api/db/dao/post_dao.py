@@ -1,13 +1,10 @@
-from typing import Optional
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from fastapi import Depends
 
 from api.db.dependencies import get_db_session
-from api.db.models.user_model import User
 from api.db.models.post_model import Post
-from api.libs.security import get_password_hash
 
 class PostDAO:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
