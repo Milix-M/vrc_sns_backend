@@ -24,11 +24,11 @@ async def get_post(
     return
 
 
-@router.post("/delete-post")
+@router.post("/delete")
 async def delete_post():
     return
 
 
-@router.get("/get-latest-post")
+@router.get("/get-latest")
 async def get_latest_post():
     return
