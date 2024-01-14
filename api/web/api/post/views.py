@@ -6,7 +6,7 @@ from api.web.api.post.schema import PostBase, Post
 router = APIRouter()
 
 
-@router.post("/post", response_model=Post)
+@router.post("/create", response_model=Post)
 async def add_post(
     post: PostBase,
     post_dao: PostDAO = Depends(),
