@@ -5,9 +5,9 @@ class PostBase(BaseModel):
     content: str
 
 class Post(PostBase):
-    id: int
+    postid: int
     like: int
     repost: int
 
 class ShowPost(BaseModel):
-    id: int
+    postid: int
