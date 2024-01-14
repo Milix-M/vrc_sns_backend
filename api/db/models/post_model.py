@@ -8,5 +8,5 @@ class Post(Base):
     id = Column(Integer, primary_key=True)
     userid = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"))
     content = Column(String(500))
-    like = Column(Integer)
-    repost = Column(Integer)
+    like = Column(Integer, default=0)
+    repost = Column(Integer, default=0)
