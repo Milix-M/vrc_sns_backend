@@ -27,7 +27,7 @@ class PostDAO:
         await self.session.refresh(post)
         return post
 
-    async def read_post(
+    async def get_post_by_id(
             self,
             postid: str,
     ) -> Post:
