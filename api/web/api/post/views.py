@@ -48,7 +48,7 @@ async def delete_post(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Post not found. Please check the post ID and try again."
         )
-    
+
     return await post_dao.delete_post(
         postid=postid.postid
     )
