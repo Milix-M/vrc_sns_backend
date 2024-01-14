@@ -34,7 +34,7 @@ class PostDAO:
         """
         This function reads a post with the given id.
         """
-        post = await self.session.execute(select(Post).where(Post.id == postid))
+        post = await self.session.execute(select(Post).where(Post.postid == postid))
         return post.scalar_one_or_none()
 
     async def delete_post(
@@ -44,7 +44,7 @@ class PostDAO:
         """
         This function deletes a post with the given id.
         """
-        post = await self.session.execute(select(Post).where(Post.id == postid))
+        post = await self.session.execute(select(Post).where(Post.postid == postid))
         if post is not None:
             self.session.delete(post)
             await self.session.commit()

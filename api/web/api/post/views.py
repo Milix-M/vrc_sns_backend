@@ -24,7 +24,7 @@ async def get_post(
     post_dao: PostDAO = Depends(),
 ):
     return await post_dao.get_post_by_id(
-        postid=post.id
+        postid=post.postid
     )
 
 
