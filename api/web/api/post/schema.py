@@ -9,5 +9,5 @@ class Post(PostBase):
     like: int
     repost: int
 
-class ShowPost(BaseModel):
+class PostID(BaseModel):
     postid: int
