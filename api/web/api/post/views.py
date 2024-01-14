@@ -29,8 +29,13 @@ async def get_post(
 
 
 @router.post("/delete")
-async def delete_post():
-    return
+async def delete_post(
+    postid: PostID,
+    post_dao: PostDAO = Depends(),
+):
+    return await post_dao.delete_post(
+        postid=postid.postid
+    )
 
 
 @router.get("/get-latest")
