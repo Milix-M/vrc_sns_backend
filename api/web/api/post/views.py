@@ -1,27 +1,33 @@
-from fastapi import APIRouter, Depends, Response, HTTPException
+from fastapi import APIRouter, Depends
 
-from api.web.api.users.schema import User, UserCreate
-from api.db.dao.user_dao import UserDAO
 from api.db.dao.post_dao import PostDAO
-from api.web.api.post.schema import Post
+from api.web.api.post.schema import PostBase, Post
 
 router = APIRouter()
 
+
 @router.post("/post", response_model=Post)
 async def add_post(
-    ):
-    return
+    post: PostBase,
+    post_dao: PostDAO = Depends(),
+):
+    return await post_dao.create_post(
+        userid=post.userid,
+        content=post.content
+    )
+    # Todo Validationする、useridじゃなくてcredentialを必須としてそのcredentialに紐付けられているユーザーからpostできるようにする
 
 
 @router.post("/get-post", response_model=Post)
 async def get_post(
-    ):
+):
     return
 
 
 @router.post("/delete-post")
 async def delete_post():
     return
+
 
 @router.get("/get-latest-post")
 async def get_latest_post():
