@@ -16,6 +16,7 @@ asyncpg = "*"
 alembic = "*"
 black = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
+python-dotenv = "*"
 
 [dev-packages]
 
