@@ -12,7 +12,7 @@ services:
       - '8000:8000'
     restart: always
     volumes:
-      - ./api:/root/src/api:ro
+      - ./api:/root/src/api
 
     tty: true
     depends_on:
