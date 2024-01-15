@@ -30,12 +30,12 @@ async def google_login(request: Request) -> Response:
             detail="client_id or client_secret not found to create URL for Google login.",
         )
 
-    #Debug
+    # Debug
     print(google.auth_url(
-            settings.google_client_id,
-            redirect_uri=str(request.url_for("google_callback")),
-        ))
-    #Debug
+        settings.google_client_id,
+        redirect_uri=str(request.url_for("google_callback")),
+    ))
+    # Debug
 
     return RedirectResponse(
         google.auth_url(
@@ -50,7 +50,7 @@ async def google_callback(
     request: Request,
     code: Optional[str] = None,
     user_dao: UserDAO = Depends(),
-    token_code_dao:  TokenCodeDAO= Depends(),
+    token_code_dao:  TokenCodeDAO = Depends(),
 ) -> Response:
     """Process login response from Google.
 
@@ -109,7 +109,7 @@ async def google_callback(
 
     query = {"seal": await token_code_dao.create_code(user_id=user_id)}
 
-    #todo 実装
+    # todo 実装
     return RedirectResponse(
         "{0}?{1}".format(
             urljoin(settings.host, "callback"),
