@@ -12,6 +12,7 @@ class Settings():
     """
     Application Settings.
     """
+    domain: str = "localhost"
     host : str = "0.0.0.0"
     port : int = 8000
     reload: bool = True
@@ -23,6 +24,7 @@ class Settings():
     db_base = "app"
     db_echo = True
 
+    is_production = False
 
     # token credentials
     token_algorithm: str = "HS512"
