@@ -1,4 +1,12 @@
 from yarl import URL
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+load_dotenv(verbose=True)
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 class Settings():
     """
@@ -19,6 +27,10 @@ class Settings():
     # token credentials
     token_algorithm: str = "HS512"
     token_secret_key: str ="add_some_secret_key"
+
+    #OAuth credentials
+    google_client_id = os.environ.get("GOOGLE_CLIENT_ID")
+    google_client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
 
     @property
     def db_url(self) -> URL:
