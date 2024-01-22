@@ -12,6 +12,8 @@ class Settings():
     """
     Application Settings.
     """
+    web_url: str = "http://127.0.0.1:3000"
+
     domain: str = "localhost"
     host : str = "0.0.0.0"
     port : int = 8000
