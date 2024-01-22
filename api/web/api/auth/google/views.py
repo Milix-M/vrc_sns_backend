@@ -112,7 +112,7 @@ async def google_callback(
     # todo 実装
     return RedirectResponse(
         "{0}?{1}".format(
-            urljoin(settings.host, "callback"),
+            urljoin(settings.web_url, "callback"),
             urlencode(query),
         ),
     )
