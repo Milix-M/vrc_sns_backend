@@ -20,6 +20,11 @@ class Settings():
     port: int = 8000
     reload: bool = True
 
+    # アクセス許可するオリジンを指定
+    origins: list = [
+        "http://localhost:3000"
+    ]
+
     # Database Settings
     db_host = "db"
     db_port = 5432
