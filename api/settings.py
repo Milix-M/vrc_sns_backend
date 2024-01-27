@@ -22,7 +22,7 @@ class Settings():
 
     # アクセス許可するオリジンを指定
     origins: list = [
-        "http://localhost:3000"
+        "http://127.0.0.1:3000"
     ]
 
     # Database Settings
