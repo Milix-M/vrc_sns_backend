@@ -1,4 +1,6 @@
+from typing import Any
 from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.ext.hybrid import hybrid_method
 
 from api.db.base import Base
 
@@ -11,3 +13,11 @@ class User(Base):
     email = Column(String, unique=True)
     hashed_password = Column(String)
     is_initialized: Column(Boolean, default=False)
+
+    @hybrid_method
+    async def update_info(self, data: dict[str, Any]) -> None:
+        print(self.is_initialized)
+        if not self.is_initialized:
+            self.is_initialized = True
+        for key, value in data.keys():
+            setattr(self, key, value)
