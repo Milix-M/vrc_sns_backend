@@ -73,7 +73,7 @@ class SessionDAO:
             data={
                 "token_type": "token",
                 "id": user_model.id,
-                "userid": user_model.userid,
+                "user_id": user_model.userid,
                 "display_name": user_model.username,
                 "email": user_model.email,
             },
@@ -84,7 +84,8 @@ class SessionDAO:
         return create_token(
             data={
                 "token_type": "refresh_token",
-                "user_id": user_model.id,
+                "id": user_model.id,
+                "user_id": user_model.userid,
             },
             expires_delta=static.REFRESH_TOKEN_EXPIRE_TIME,
         )
