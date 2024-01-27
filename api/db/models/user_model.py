@@ -14,7 +14,7 @@ class User(Base):
     date_of_birth = Column(DateTime(timezone=True), nullable=True)
     profile = Column(String)
     hashed_password = Column(String)
-    is_initialized: Column(Boolean, default=False)
+    is_initialized = Column(Boolean, default=False)
 
     @hybrid_method
     async def update_info(self, data: dict[str, Any]) -> None:
