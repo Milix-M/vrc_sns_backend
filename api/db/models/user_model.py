@@ -12,6 +12,7 @@ class User(Base):
     username = Column(String)
     email = Column(String, unique=True)
     date_of_birth = Column(DateTime(timezone=True), nullable=True)
+    profile = Column(String)
     hashed_password = Column(String)
     is_initialized: Column(Boolean, default=False)
 
