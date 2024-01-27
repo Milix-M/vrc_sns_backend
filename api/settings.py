@@ -8,6 +8,7 @@ load_dotenv(verbose=True)
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
+
 class Settings():
     """
     Application Settings.
@@ -15,10 +16,11 @@ class Settings():
     web_url: str = "http://127.0.0.1:3000"
 
     domain: str = "localhost"
-    host : str = "0.0.0.0"
-    port : int = 8000
+    host: str = "0.0.0.0"
+    port: int = 8000
     reload: bool = True
 
+    # Database Settings
     db_host = "db"
     db_port = 5432
     db_user = "postgres"
@@ -30,9 +32,9 @@ class Settings():
 
     # token credentials
     token_algorithm: str = "HS512"
-    token_secret_key: str ="add_some_secret_key"
+    token_secret_key: str = "add_some_secret_key"
 
-    #OAuth credentials
+    # OAuth credentials
     google_client_id = os.environ.get("GOOGLE_CLIENT_ID")
     google_client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
 
