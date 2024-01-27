@@ -1,5 +1,5 @@
 from typing import Any
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.ext.hybrid import hybrid_method
 
 from api.db.base import Base
@@ -11,6 +11,7 @@ class User(Base):
     userid = Column(String, unique=True)
     username = Column(String)
     email = Column(String, unique=True)
+    date_of_birth = Column(DateTime(timezone=True), nullable=True)
     hashed_password = Column(String)
     is_initialized: Column(Boolean, default=False)
 
