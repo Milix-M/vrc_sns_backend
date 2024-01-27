@@ -5,7 +5,7 @@ from typing import Optional
 class UserBase(BaseModel):
     email: str
     username: str
-    userid: str
+    userid: str | None
 
 
 class UserCreate(UserBase):
