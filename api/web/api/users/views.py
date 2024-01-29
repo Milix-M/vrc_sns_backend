@@ -32,7 +32,7 @@ async def update_user(
         Response: The HTTP response.
     """
     user = await user_dao.get_user_by_id(id=user_info.id)
-    await user.update_info(data=user_update.model_dump())
+    await user.update_info(data=user_update.model_dump(exclude_unset=True))
 
     update_info = {
         "detail": "successfully updated."

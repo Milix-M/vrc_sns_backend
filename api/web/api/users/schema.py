@@ -25,5 +25,5 @@ class SessionUser(AuthenticatedUser):
 
 # ユーザー情報アップデート時用schema
 class UserUpdate(BaseModel):
-    username: str
-    userid: str
+    username: str | None = None
+    userid: str | None = None
