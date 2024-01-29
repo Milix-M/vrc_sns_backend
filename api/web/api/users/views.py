@@ -14,7 +14,7 @@ async def user_me(
     return user_info
 
 
-@router.get("/{id}/initialized", response_model=bool)
+@router.get("/initialized", response_model=bool)
 async def user_initialized(
     user_info: AuthenticatedUser = Depends(is_authenticated),
     user_dao: UserDAO = Depends(),
