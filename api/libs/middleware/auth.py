@@ -52,7 +52,7 @@ async def is_authenticated(
             headers={"WWW-Authenticate": 'Bearer error="invalid_token"'},
         )
 
-    user = await user_dao.get_user_by_userid(payload["user_id"])
+    user = await user_dao.get_user_by_id(payload["id"])
 
     if user is not None:
         authenticated_user = SessionUser.model_validate(user, from_attributes=True)
