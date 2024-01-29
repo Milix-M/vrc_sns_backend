@@ -15,8 +15,17 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
 
+
 class AuthenticatedUser(UserBase):
-    id : int
+    id: int
+
 
 class SessionUser(AuthenticatedUser):
     session_cert: Optional[str] = None
+
+# ユーザー情報アップデート時用schema
+
+
+class UserUpdate(BaseModel):
+    username: str
+    userid: str
