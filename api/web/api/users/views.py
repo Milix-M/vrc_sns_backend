@@ -14,6 +14,7 @@ async def user_me(
 ) -> AuthenticatedUser:
     return user_info
 
+
 @router.patch("/me")
 async def update_user(
     user_update: UserUpdate,
@@ -34,12 +35,11 @@ async def update_user(
     user.update_info(data=user_update.model_dump())
 
     update_info = {
-        "detail" : "successfully updated."
+        "detail": "successfully updated."
     }
 
     response = JSONResponse(update_info)
     return response
-
 
 
 @router.get("/initialized", response_model=bool)
