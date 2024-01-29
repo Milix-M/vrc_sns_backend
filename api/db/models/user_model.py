@@ -21,5 +21,5 @@ class User(Base):
         print(self.is_initialized)
         if not self.is_initialized:
             self.is_initialized = True
-        for key, value in data.keys():
+        for key, value in data.items():
             setattr(self, key, value)
