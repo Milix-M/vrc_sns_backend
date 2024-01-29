@@ -18,7 +18,7 @@ async def user_me(
 @router.patch("/me")
 async def update_user(
     user_update: UserUpdate,
-    user_info: User = Depends(is_authenticated),
+    user_info: AuthenticatedUser = Depends(is_authenticated),
     user_dao: UserDAO = Depends(),
 ) -> Response:
     """
