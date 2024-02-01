@@ -50,6 +50,21 @@ services:
       fastapi:
         condition: service_started
 
+  redis:
+    container_name: app-redis
+    image: redis/redis-stack:7.2.0-v8
+    restart: always
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - ./.redis_data:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 50
+
 
 volumes:
   postgres_data:
