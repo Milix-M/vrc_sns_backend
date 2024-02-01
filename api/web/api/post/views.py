@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from api.db.dao.post_dao import PostDAO
 from api.web.api.post.schema import PostBase, Post, PostID
+from api.web.api.users.schema import AuthenticatedUser
+from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
 
@@ -9,13 +11,13 @@ router = APIRouter()
 @router.post("/create", response_model=Post)
 async def add_post(
     post: PostBase,
+    user_info: AuthenticatedUser = Depends(is_authenticated),
     post_dao: PostDAO = Depends(),
-):
+) -> Post:
     return await post_dao.create_post(
-        userid=post.userid,
+        userid=user_info.id,
         content=post.content
     )
-    # Todo Validationする、useridじゃなくてcredentialを必須としてそのcredentialに紐付けられているユーザーからpostできるようにする
 
 
 @router.post("/show", response_model=Post)

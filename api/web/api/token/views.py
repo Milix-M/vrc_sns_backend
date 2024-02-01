@@ -77,7 +77,7 @@ async def generate_jwt_token(
     session = await session_dao.get_from_session_cert(session_cert)
 
     if session is not None and session.is_valid():
-        user = await user_dao.get_user(session.user_id)
+        user = await user_dao.get_user_by_id(session.user_id)
 
         if user is None:
             # Normaly NO WAY!

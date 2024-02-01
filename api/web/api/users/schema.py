@@ -5,7 +5,7 @@ from typing import Optional
 class UserBase(BaseModel):
     email: str
     username: str
-    userid: str
+    userid: str | None
 
 
 class UserCreate(UserBase):
@@ -15,8 +15,15 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
 
+
 class AuthenticatedUser(UserBase):
-    id : int
+    id: int
+
 
 class SessionUser(AuthenticatedUser):
     session_cert: Optional[str] = None
+
+# ユーザー情報アップデート時用schema
+class UserUpdate(BaseModel):
+    username: str | None = None
+    userid: str | None = None
