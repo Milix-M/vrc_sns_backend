@@ -37,8 +37,8 @@ services:
       timeout: 3s
       retries: 40
 
-  dbmigrator:
-    container_name: migrator
+  migrator:
+    container_name: dbmigrator
     image: fastapi:${API_VERSION:-latest}
     restart: on-failure
     volumes:
