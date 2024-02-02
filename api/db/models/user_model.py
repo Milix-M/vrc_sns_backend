@@ -11,6 +11,7 @@ class User(Base):
     userid = Column(String, unique=True)
     username = Column(String)
     email = Column(String, unique=True)
+    icon = Column(String)
     date_of_birth = Column(DateTime(timezone=True), nullable=True)
     profile = Column(String)
     hashed_password = Column(String)
