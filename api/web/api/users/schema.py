@@ -6,6 +6,7 @@ class UserBase(BaseModel):
     email: str
     username: str
     userid: str | None
+    icon: str | None
 
 
 class UserCreate(UserBase):
