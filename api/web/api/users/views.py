@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response, Path
+from fastapi import APIRouter, Depends, Response, Path, HTTPException, status
 from fastapi.responses import JSONResponse
 
 from api.db.dao.user_dao import UserDAO
@@ -58,7 +58,12 @@ async def get_user_info(
     """
     userdata = await user_dao.get_user_by_userid(userid=user_id)
 
-    return userdata
+    if userdata:
+        return userdata
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND, detail="user id is not found."
+    )
 
 
 @router.get("/initialized", response_model=bool)
