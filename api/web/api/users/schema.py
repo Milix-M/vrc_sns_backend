@@ -3,7 +3,7 @@ from typing import Optional
 
 
 class UserBase(BaseModel):
-    email: str
+    id: int
     username: str
     userid: str | None
     icon: str | None
@@ -16,11 +16,11 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
-    id: int
+    email: str
 
 
 class AuthenticatedUser(UserBase):
-    id: int
+    email: str
 
 
 class SessionUser(AuthenticatedUser):
