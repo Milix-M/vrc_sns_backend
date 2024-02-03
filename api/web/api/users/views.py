@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, Path
 from fastapi.responses import JSONResponse
 
 from api.db.dao.user_dao import UserDAO
-from api.web.api.users.schema import AuthenticatedUser, UserUpdate, User
+from api.web.api.users.schema import AuthenticatedUser, UserBase, UserUpdate, User
 from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
@@ -40,6 +40,25 @@ async def update_user(
 
     response = JSONResponse(update_info)
     return response
+
+
+@router.get("/{user_id}/info", response_model=UserBase)
+async def get_user_info(
+    user_id: str = Path(title="User id of the user to be retrieved"),
+    user_dao: UserDAO = Depends(),
+) -> UserBase:
+    """
+    Get user information.
+    Args:
+        user_info (str): The user user_id.
+        user_dao (UserDAO): The user data access object.
+
+    Returns:
+        UserBase: return UserBase schema.
+    """
+    userdata = await user_dao.get_user_by_userid(userid=user_id)
+
+    return userdata
 
 
 @router.get("/initialized", response_model=bool)
