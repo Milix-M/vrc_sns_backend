@@ -33,12 +33,12 @@ class UserDAO:
 
         return user
 
-    async def get_user_by_id(self, id: str):
+    async def get_user_by_id(self, id: int):
         """Function can get the user from id.
 
         If not found, return None.
 
-        :param id: email of the user you want to get.
+        :param id: id of the user you want to get.
         :returns: if not found user, will return None.
         """
         query = select(User).where(User.id == id)
