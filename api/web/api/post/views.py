@@ -8,10 +8,30 @@ from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
 
-"""
-PostDAO側でユーザーの情報も取得してPostモデルに含めて返せばもっと簡潔なコードが書けるが
-PostDAOがユーザーの情報にアクセスするは責務が増えることになってしまうのでここで別途取ってきて返す。
-"""
+
+async def create_post_response(post_data: Post, user_info: UserBase) -> Post:
+    """
+    Creates a Post response model from post data and user information.
+
+    PostDAO側でユーザーの情報も取得してPostモデルに含めて返せばもっと簡潔なコードが書けるが
+    PostDAOがユーザーの情報にアクセスするのは責務が増えるのでここで別途取ってきて返す。
+    """
+    return Post(
+        postid=post_data.postid,
+        content=post_data.content,
+        created_at=post_data.created_at,
+        user=UserBase(
+            id=user_info.id,
+            username=user_info.username,
+            userid=user_info.userid,
+            icon=user_info.icon,
+            header=user_info.header,
+            profile=user_info.profile
+        ),
+        userid=post_data.userid,
+        favorite_count=post_data.favorite_count,
+        repost_count=post_data.repost_count
+    )
 
 
 @router.post("/create", response_model=Post)
@@ -35,23 +55,7 @@ async def add_post(
         userid=user_info.id,
         content=post_create.content
     )
-    return Post(
-        postid=post_data.postid,
-        content=post_data.content,
-        created_at=post_data.created_at,
-        # Store user data within the Post data as well
-        user=UserBase(
-            id=user_info.id,
-            username=user_info.username,
-            userid=user_info.userid,
-            icon=user_info.icon,
-            header=user_info.header,
-            profile=user_info.profile
-        ),
-        userid=post_data.userid,
-        favorite_count=post_data.favorite_count,
-        repost_count=post_data.repost_count
-    )
+    return await create_post_response(post_data, user_info)
 
 
 @router.post("/show", response_model=Post)
@@ -85,23 +89,7 @@ async def get_post(
     # 返却するPostモデルにUserのデータが必要な為取ってくる
     user_info = await user_dao.get_user_by_id(post_data.userid)
 
-    return Post(
-        postid=post_data.postid,
-        content=post_data.content,
-        created_at=post_data.created_at,
-        # Store user data within the Post data as well
-        user=UserBase(
-            id=user_info.id,
-            username=user_info.username,
-            userid=user_info.userid,
-            icon=user_info.icon,
-            header=user_info.header,
-            profile=user_info.profile
-        ),
-        userid=post_data.userid,
-        favorite_count=post_data.favorite_count,
-        repost_count=post_data.repost_count
-    )
+    return await create_post_response(post_data, user_info)
 
 
 @router.post("/delete")
