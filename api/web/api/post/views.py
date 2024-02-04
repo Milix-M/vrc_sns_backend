@@ -109,6 +109,20 @@ async def delete_post(
     post_id: PostID,
     post_dao: PostDAO = Depends(),
 ):
+    """
+    Deletes a post by its ID.
+
+    This endpoint allows for the deletion of a post specified by its ID. It first checks if the post exists,
+    and if not, it raises an HTTPException indicating the post could not be found. If the post exists, it proceeds
+    to delete the post and returns a confirmation of deletion.
+
+    Args:
+        post_id (PostID): The ID of the post to delete.
+        post_dao (PostDAO): The Data Access Object for posts, obtained through dependency injection.
+
+    Raises:
+        HTTPException: If the post with the specified ID is not found.
+    """
     post_data = await post_dao.get_post_by_id(post_id.postid)
 
     if post_data is None:
