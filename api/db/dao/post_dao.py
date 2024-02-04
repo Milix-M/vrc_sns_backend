@@ -27,7 +27,7 @@ class PostDAO:
     async def get_post_by_id(
             self,
             postid: str,
-    ) -> Post:
+    ) -> Post | None:
         """
         This function reads a post with the given id.
         """
