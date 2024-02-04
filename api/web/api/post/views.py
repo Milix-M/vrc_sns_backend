@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from api.db.dao.post_dao import PostDAO
 from api.db.dao.user_dao import UserDAO
