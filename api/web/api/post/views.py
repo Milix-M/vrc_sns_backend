@@ -8,6 +8,11 @@ from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
 
+"""
+PostDAO側でユーザーの情報も取得してPostモデルに含めて返せばもっと簡潔なコードが書けるが
+PostDAOがユーザーの情報にアクセスするは責務が増えることになってしまうのでここで別途取ってきて返す。
+"""
+
 
 @router.post("/create", response_model=Post)
 async def add_post(
@@ -17,12 +22,12 @@ async def add_post(
 ) -> Post:
     """
     Creates a new post using the provided content and associates it with the authenticated user.
-    
+
     Args:
         post_create (PostCreate): The schema containing the content of the post to be created.
         user_info (AuthenticatedUser): The authenticated user's information, obtained through dependency injection.
         post_dao (PostDAO): The Data Access Object for posts, obtained through dependency injection.
-        
+
     Returns:
         Post: The created post, including its content, creation date, associated user, and statistics like favorite and repost counts.
     """
@@ -76,7 +81,7 @@ async def get_post(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Post not found. Please check the post ID and try again."
         )
-    
+
     # 返却するPostモデルにUserのデータが必要な為取ってくる
     user_info = await user_dao.get_user_by_id(post_data.userid)
 
