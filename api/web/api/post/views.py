@@ -106,10 +106,10 @@ async def get_post(
 
 @router.post("/delete")
 async def delete_post(
-    postid: PostID,
+    post_id: PostID,
     post_dao: PostDAO = Depends(),
 ):
-    post_data = await post_dao.get_post_by_id(postid)
+    post_data = await post_dao.get_post_by_id(post_id.postid)
 
     if post_data is None:
         raise HTTPException(
@@ -118,7 +118,7 @@ async def delete_post(
         )
 
     return await post_dao.delete_post(
-        postid=postid.postid
+        postid=post_id.postid
     )
 
 
