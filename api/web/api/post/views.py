@@ -108,7 +108,7 @@ async def get_post(
 async def delete_post(
     post_id: PostID,
     post_dao: PostDAO = Depends(),
-):
+) -> None:
     """
     Deletes a post by its ID.
 
