@@ -6,7 +6,7 @@ class PostBase(BaseModel):
 class Post(PostBase):
     userid: int
     postid: int
-    like: int
+    favorite: int
     repost: int
 
 class PostID(BaseModel):
