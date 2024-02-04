@@ -112,9 +112,9 @@ async def delete_post(
     """
     Deletes a post by its ID.
 
-    This endpoint allows for the deletion of a post specified by its ID. It first checks if the post exists,
-    and if not, it raises an HTTPException indicating the post could not be found. If the post exists, it proceeds
-    to delete the post and returns a confirmation of deletion.
+    This endpoint allows you to delete a post specified by its ID. First, it checks if the post exists,
+    If it does not exist, an HTTPException is sent indicating that the posting could not be found. If the post does exist
+    delete the posting.
 
     Args:
         post_id (PostID): The ID of the post to delete.
