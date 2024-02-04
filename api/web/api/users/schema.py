@@ -7,7 +7,7 @@ class UserBase(BaseModel):
     username: str
     userid: str | None
     icon: str | None
-    headder: str | None
+    header: str | None
     profile: str | None
 
 

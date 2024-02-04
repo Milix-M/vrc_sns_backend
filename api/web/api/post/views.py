@@ -40,7 +40,7 @@ async def add_post(
             username=user_info.username,
             userid=user_info.userid,
             icon=user_info.icon,
-            headder=user_info.headder,
+            header=user_info.header,
             profile=user_info.profile
         ),
         userid=post_data.userid,
@@ -90,7 +90,7 @@ async def get_post(
             username=user_info.username,
             userid=user_info.userid,
             icon=user_info.icon,
-            headder=user_info.headder,
+            header=user_info.header,
             profile=user_info.profile
         ),
         userid=post_data.userid,
