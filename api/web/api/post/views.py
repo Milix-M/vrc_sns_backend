@@ -11,10 +11,17 @@ router = APIRouter()
 
 async def create_post_response(post_data: Post, user_info: UserBase) -> Post:
     """
-    Creates a Post response model from post data and user information.
+    This function constructs a Post response model by combining the provided post data with user information.
 
-    PostDAO側でユーザーの情報も取得してPostモデルに含めて返せばもっと簡潔なコードが書けるが
-    PostDAOがユーザーの情報にアクセスするのは責務が増えるのでここで別途取ってきて返す。
+    Although it would be more concise to have the PostDAO also fetch and include user information directly within the Post model,
+    doing so would increase the responsibilities of PostDAO. Therefore, user information is fetched separately here and combined with the post data.
+
+    Args:
+        post_data (Post): The post data retrieved from the database.
+        user_info (UserBase): The user information to be associated with the post.
+
+    Returns:
+        Post: A Post model populated with both post data and user information.
     """
     return Post(
         postid=post_data.postid,
