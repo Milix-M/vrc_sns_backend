@@ -122,8 +122,3 @@ async def delete_post(
     return await post_dao.delete_post(
         postid=post_id.postid
     )
-
-
-@router.get("/get-latest")
-async def get_latest_post():
-    return
