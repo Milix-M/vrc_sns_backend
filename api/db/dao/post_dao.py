@@ -12,7 +12,7 @@ class PostDAO:
 
     async def create_post(
             self,
-            userid: str,
+            userid: int,
             content: str,
     ) -> Post:
         """
