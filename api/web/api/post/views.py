@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from api.db.dao.post_dao import PostDAO
-from api.web.api.post.schema import PostBase, Post, PostID
-from api.web.api.users.schema import AuthenticatedUser
+from api.db.dao.user_dao import UserDAO
+from api.web.api.post.schema import Post, PostCreate, PostID
+from api.web.api.users.schema import AuthenticatedUser, UserBase
 from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
@@ -10,13 +11,41 @@ router = APIRouter()
 
 @router.post("/create", response_model=Post)
 async def add_post(
-    post: PostBase,
+    post_create: PostCreate,
     user_info: AuthenticatedUser = Depends(is_authenticated),
     post_dao: PostDAO = Depends(),
 ) -> Post:
-    return await post_dao.create_post(
+    """
+    Creates a new post using the provided content and associates it with the authenticated user.
+    
+    Args:
+        post_create (PostCreate): The schema containing the content of the post to be created.
+        user_info (AuthenticatedUser): The authenticated user's information, obtained through dependency injection.
+        post_dao (PostDAO): The Data Access Object for posts, obtained through dependency injection.
+        
+    Returns:
+        Post: The created post, including its content, creation date, associated user, and statistics like favorite and repost counts.
+    """
+    post_data = await post_dao.create_post(
         userid=user_info.id,
-        content=post.content
+        content=post_create.content
+    )
+    return Post(
+        postid=post_data.postid,
+        content=post_data.content,
+        created_at=post_data.created_at,
+        # Store user data within the Post data as well
+        user=UserBase(
+            id=user_info.id,
+            username=user_info.username,
+            userid=user_info.userid,
+            icon=user_info.icon,
+            headder=user_info.headder,
+            profile=user_info.profile
+        ),
+        userid=post_data.userid,
+        favorite_count=post_data.favorite_count,
+        repost_count=post_data.repost_count
     )
 
 
