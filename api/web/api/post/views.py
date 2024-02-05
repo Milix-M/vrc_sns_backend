@@ -3,42 +3,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from api.db.dao.post_dao import PostDAO
 from api.db.dao.user_dao import UserDAO
 from api.web.api.post.schema import Post, PostCreate, PostID
-from api.web.api.users.schema import AuthenticatedUser, UserBase
+from api.web.api.users.schema import AuthenticatedUser
 from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
-
-
-async def create_post_response(post_data: Post, user_info: UserBase) -> Post:
-    """
-    This function constructs a Post response model by combining the provided post data with user information.
-
-    Although it would be more concise to have the PostDAO also fetch and include user information directly within the Post model,
-    doing so would increase the responsibilities of PostDAO. Therefore, user information is fetched separately here and combined with the post data.
-
-    Args:
-        post_data (Post): The post data retrieved from the database.
-        user_info (UserBase): The user information to be associated with the post.
-
-    Returns:
-        Post: A Post model populated with both post data and user information.
-    """
-    return Post(
-        postid=post_data.postid,
-        content=post_data.content,
-        created_at=post_data.created_at,
-        user=UserBase(
-            id=user_info.id,
-            username=user_info.username,
-            userid=user_info.userid,
-            icon=user_info.icon,
-            header=user_info.header,
-            profile=user_info.profile
-        ),
-        userid=post_data.userid,
-        favorite_count=post_data.favorite_count,
-        repost_count=post_data.repost_count
-    )
 
 
 @router.post("/create", response_model=Post)
@@ -62,7 +30,8 @@ async def add_post(
         userid=user_info.id,
         content=post_create.content
     )
-    return await create_post_response(post_data, user_info)
+    post_data = await post_dao.get_user(post_data)
+    return post_data
 
 
 @router.post("/show", response_model=Post)
@@ -93,10 +62,8 @@ async def get_post(
             detail="Post not found. Please check the post ID and try again."
         )
 
-    # 返却するPostモデルにUserのデータが必要な為取ってくる
-    user_info = await user_dao.get_user_by_id(post_data.userid)
-
-    return await create_post_response(post_data, user_info)
+    post_data = await post_dao.get_user(post_data)
+    return post_data
 
 
 @router.post("/delete")
