@@ -6,6 +6,7 @@ from fastapi import Depends
 from api.db.dependencies import get_db_session
 from api.db.models.post_model import Post
 
+
 class PostDAO:
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
@@ -45,3 +46,10 @@ class PostDAO:
         if post is not None:
             self.session.delete(post)
             await self.session.commit()
+
+    async def get_user(
+            self,
+            post: Post
+    ) -> Post:
+        await self.session.refresh(post, attribute_names=["user"])
+        return post
