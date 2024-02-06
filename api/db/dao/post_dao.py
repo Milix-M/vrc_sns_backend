@@ -1,4 +1,5 @@
 
+from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from fastapi import Depends
@@ -53,3 +54,39 @@ class PostDAO:
     ) -> Post:
         await self.session.refresh(post, attribute_names=["user"])
         return post
+
+    async def get_user_posts(
+            self,
+            userid: int,
+            includeReplies: bool | None,
+            limit: int | None,
+            sinceid: int | None,
+            untilid: int | None,
+    ) -> List[Post]:
+        """
+        Retrieves posts for a specified user ID. Optionally, it can include replies, limit the number of posts retrieved,
+        and filter posts within a specific ID range.
+
+        Args:
+            userid (int): User ID for which posts are to be retrieved.
+            includeReplies (bool): Boolean indicating whether to include replies in the posts.
+            limit (int): The maximum number of posts to retrieve.
+            sinceid (int): The lower bound of the post ID range for filtering.
+            untilid (int): The upper bound of the post ID range for filtering.
+
+        Returns:
+            list[Post]: A list of Post objects.
+        """
+        query = select(Post).where(Post.userid == userid)
+
+        if sinceid is not None:
+            query = query.filter(Post.postid > sinceid)
+
+        if untilid is not None:
+            query = query.filter(Post.postid < untilid)
+
+        query = query.order_by(Post.created_at.desc()).limit(limit)
+
+        row = await self.session.execute(query)
+
+        return row.scalars().all()
