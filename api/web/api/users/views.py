@@ -1,8 +1,11 @@
+from typing import List
 from fastapi import APIRouter, Depends, Response, Path, HTTPException, status
 from fastapi.responses import JSONResponse
+from api.db.dao.post_dao import PostDAO
 
 from api.db.dao.user_dao import UserDAO
 from api.web.api.users.schema import AuthenticatedUser, UserBase, UserUpdate, User
+from api.web.api.post.schema import PostWOUser, UserPostsGet
 from api.libs.middleware.auth import is_authenticated
 
 router = APIRouter()
@@ -76,3 +79,15 @@ async def user_initialized(
     userdata = await user_dao.get_user_by_id(id=user_info.id)
 
     return userdata.is_initialized
+
+
+@router.get("/posts", response_model=List[PostWOUser])
+async def user_posts(
+    get_post_info: UserPostsGet = Depends(),
+    post_dao: PostDAO = Depends(),
+) -> List[PostWOUser]:
+    """"""
+
+    return await post_dao.get_user_posts(
+        **get_post_info.model_dump()
+    )
