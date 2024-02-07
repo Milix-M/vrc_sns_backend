@@ -15,7 +15,7 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     display_id: Mapped[str] = mapped_column(String(15), unique=True)
     username: Mapped[str] = mapped_column(String(50))
-    email: Mapped[EmailType] = mapped_column(unique=True)
+    email: Mapped[EmailType] = mapped_column(EmailType, unique=True)
     icon: Mapped[str]
     header: Mapped[str]
     date_of_birth: Mapped[datetime] = mapped_column(
