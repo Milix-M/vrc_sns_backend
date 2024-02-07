@@ -11,7 +11,7 @@ class Post(BaseModel):
     content: str
     created_at: datetime.datetime
     user: UserBase
-    userid: int
+    user_id: int
     favorite_count: int
     repost_count: int
 
@@ -26,7 +26,7 @@ class PostWOUser(BaseModel):
     repost_count: int
 
 class UserPostsGet(BaseModel):
-    userid: int
+    user_id: int
     includeReplies: bool | None = Field(False, description="Whether to include replies or not")
     limit: int | None = Field(15, description="Limit for fetching posts")
     sinceid: int | None = Field(None)
