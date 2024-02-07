@@ -27,7 +27,7 @@ async def add_post(
         Post: The created post, including its content, creation date, associated user, and statistics like favorite and repost counts.
     """
     post_data = await post_dao.create_post(
-        userid=user_info.id,
+        user_id=user_info.id,
         content=post_create.content
     )
     post_data = await post_dao.get_user(post_data)
