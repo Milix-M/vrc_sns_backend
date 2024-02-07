@@ -15,12 +15,13 @@ class PostDAO:
     async def create_post(
             self,
             user_id: int,
+            display_id: str,
             content: str,
     ) -> Post:
         """
         Creates a new post with the given user id and content.
         """
-        post = Post(user_id=user_id, content=content)
+        post = Post(user_id=user_id, display_id=display_id, content=content)
         self.session.add(post)
         await self.session.commit()
         await self.session.refresh(post)
