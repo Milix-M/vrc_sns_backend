@@ -103,7 +103,7 @@ async def google_callback(
             username=user_info["name"],
             email=user_email,
             password=None,
-            userid=None,
+            display_id=None,
         )
         user_id = user_obj.id
 
