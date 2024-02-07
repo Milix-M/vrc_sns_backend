@@ -13,7 +13,7 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    display_id: Mapped[str] = mapped_column(unique=True)
+    display_id: Mapped[str] = mapped_column(String(15), unique=True)
     username: Mapped[str] = mapped_column(String(50))
     email: Mapped[EmailType] = mapped_column(unique=True)
     icon: Mapped[str]
