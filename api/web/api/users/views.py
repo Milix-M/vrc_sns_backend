@@ -45,9 +45,9 @@ async def update_user(
     return response
 
 
-@router.get("/{user_id}/info", response_model=UserBase)
+@router.get("/{display_id}/info", response_model=UserBase)
 async def get_user_info(
-    display_id: str = Path(title="User id of the user to be retrieved"),
+    display_id: str = Path(title="display id of the user to be retrieved"),
     user_dao: UserDAO = Depends(),
 ) -> UserBase:
     """
