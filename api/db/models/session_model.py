@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_method
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy.sql.sqltypes import Boolean, Integer, String
+from sqlalchemy.sql.sqltypes import Integer, String
 
 from api.db.base import Base
 from api.db.models.user_model import User
@@ -21,7 +21,7 @@ class SessionModel(Base):
     )
     session_cert: Mapped[str] = mapped_column(String(100))
     refresh_token: Mapped[str] = mapped_column(String(512))
-    is_discard: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_discard: Mapped[bool] = mapped_column(default=False)
 
     @hybrid_method
     def is_valid(self) -> bool:
