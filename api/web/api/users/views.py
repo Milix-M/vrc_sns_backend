@@ -34,7 +34,7 @@ async def update_user(
     Returns:
         Response: The HTTP response.
     """
-    user = await user_dao.get_user_by_id(id=user_info.id)
+    user = await user_dao.get_user_by_id(user_id=user_info.id)
     await user.update_info(data=user_update.model_dump(exclude_unset=True))
 
     update_info = {
@@ -76,7 +76,7 @@ async def user_initialized(
 ) -> bool:
     """check user already initilized"""
 
-    userdata = await user_dao.get_user_by_id(id=user_info.id)
+    userdata = await user_dao.get_user_by_id(user_id=user_info.id)
 
     return userdata.is_initialized
 
