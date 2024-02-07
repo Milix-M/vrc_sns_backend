@@ -58,7 +58,7 @@ class PostDAO:
 
     async def get_user_posts(
             self,
-            user_id: int,
+            display_id: str,
             includeReplies: bool | None,
             limit: int | None,
             sinceid: int | None,
@@ -69,7 +69,7 @@ class PostDAO:
         and filter posts within a specific ID range.
 
         Args:
-            user_id (int): User ID for which posts are to be retrieved.
+            display_id (str): User ID for which posts are to be retrieved.
             includeReplies (bool): Boolean indicating whether to include replies in the posts.
             limit (int): The maximum number of posts to retrieve.
             sinceid (int): The lower bound of the post ID range for filtering.
@@ -78,7 +78,7 @@ class PostDAO:
         Returns:
             list[Post]: A list of Post objects.
         """
-        query = select(Post).where(Post.user_id == user_id)
+        query = select(Post).where(Post.display_id == display_id)
 
         if sinceid is not None:
             query = query.filter(Post.postid > sinceid)
