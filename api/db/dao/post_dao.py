@@ -14,13 +14,13 @@ class PostDAO:
 
     async def create_post(
             self,
-            userid: int,
+            user_id: int,
             content: str,
     ) -> Post:
         """
         Creates a new post with the given user id and content.
         """
-        post = Post(userid=userid, content=content)
+        post = Post(user_id=user_id, content=content)
         self.session.add(post)
         await self.session.commit()
         await self.session.refresh(post)
@@ -57,7 +57,7 @@ class PostDAO:
 
     async def get_user_posts(
             self,
-            userid: int,
+            user_id: int,
             includeReplies: bool | None,
             limit: int | None,
             sinceid: int | None,
@@ -68,7 +68,7 @@ class PostDAO:
         and filter posts within a specific ID range.
 
         Args:
-            userid (int): User ID for which posts are to be retrieved.
+            user_id (int): User ID for which posts are to be retrieved.
             includeReplies (bool): Boolean indicating whether to include replies in the posts.
             limit (int): The maximum number of posts to retrieve.
             sinceid (int): The lower bound of the post ID range for filtering.
@@ -77,7 +77,7 @@ class PostDAO:
         Returns:
             list[Post]: A list of Post objects.
         """
-        query = select(Post).where(Post.userid == userid)
+        query = select(Post).where(Post.user_id == user_id)
 
         if sinceid is not None:
             query = query.filter(Post.postid > sinceid)

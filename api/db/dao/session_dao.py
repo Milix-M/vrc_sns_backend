@@ -72,9 +72,9 @@ class SessionDAO:
         return create_token(
             data={
                 "token_type": "token",
-                "id": user_model.id,
-                "user_id": user_model.userid,
-                "display_name": user_model.username,
+                "user_id": user_model.id,
+                "display_id": user_model.display_id,
+                "username": user_model.username,
                 "email": user_model.email,
             },
             expires_delta=static.ACCESS_TOKEN_EXPIRE_TIME,
@@ -84,8 +84,8 @@ class SessionDAO:
         return create_token(
             data={
                 "token_type": "refresh_token",
-                "id": user_model.id,
-                "user_id": user_model.userid,
+                "user_id": user_model.id,
+                "display_id": user_model.display_id,
             },
             expires_delta=static.REFRESH_TOKEN_EXPIRE_TIME,
         )

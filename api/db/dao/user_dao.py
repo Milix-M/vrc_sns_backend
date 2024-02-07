@@ -15,17 +15,17 @@ class UserDAO:
 
     async def create_user(
         self,
-        userid: str,
+        display_id: str,
         username: str,
         email: str,
         password: str
     ) -> User:
         if password:
-            user = User(userid=userid, username=username, email=email,
+            user = User(display_id=display_id, username=username, email=email,
                         hashed_password=get_password_hash(password))
         # Googleログイン用
         else:
-            user = User(userid=userid, username=username, email=email,
+            user = User(display_id=display_id, username=username, email=email,
                         hashed_password="")
 
         self.session.add(user)
@@ -33,29 +33,29 @@ class UserDAO:
 
         return user
 
-    async def get_user_by_id(self, id: int):
+    async def get_user_by_id(self, user_id: int):
         """Function can get the user from id.
 
         If not found, return None.
 
-        :param id: id of the user you want to get.
+        :param user_id: id of the user you want to get.
         :returns: if not found user, will return None.
         """
-        query = select(User).where(User.id == id)
+        query = select(User).where(User.id == user_id)
         rows = await self.session.execute(query)
 
         return rows.scalar_one_or_none()
 
 
-    async def get_user_by_userid(self, userid: str):
-        """Function can get the user from user_userid.
+    async def get_user_by_display_id(self, display_id: str):
+        """Function can get the user from user_display_id.
 
         If not found, return None.
 
-        :param userid: email of the user you want to get.
+        :param display_id: email of the user you want to get.
         :returns: if not found user, will return None.
         """
-        query = select(User).where(User.userid == userid)
+        query = select(User).where(User.display_id == display_id)
         rows = await self.session.execute(query)
 
         return rows.scalar_one_or_none()
@@ -65,7 +65,7 @@ class UserDAO:
 
         If not found, return None.
 
-        :param userid: email of the user you want to get.
+        :param email: email of the user you want to get.
         :returns: if not found user, will return None.
         """
         query = select(User).where(User.email == email)
