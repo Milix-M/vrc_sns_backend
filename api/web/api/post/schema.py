@@ -26,7 +26,6 @@ class PostWOUser(BaseModel):
     repost_count: int
 
 class UserPostsGet(BaseModel):
-    user_id: int
     includeReplies: bool | None = Field(False, description="Whether to include replies or not")
     limit: int | None = Field(15, description="Limit for fetching posts")
     sinceid: int | None = Field(None)
