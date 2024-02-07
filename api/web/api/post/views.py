@@ -28,6 +28,7 @@ async def add_post(
     """
     post_data = await post_dao.create_post(
         user_id=user_info.id,
+        display_id=user_info.display_id,
         content=post_create.content
     )
     post_data = await post_dao.get_user(post_data)
