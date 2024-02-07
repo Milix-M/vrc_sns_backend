@@ -81,13 +81,15 @@ async def user_initialized(
     return userdata.is_initialized
 
 
-@router.get("/posts", response_model=List[PostWOUser])
+@router.get("/{display_id}/posts", response_model=List[PostWOUser])
 async def user_posts(
+    display_id: str = Path(title="display id of the user to be retrieved"),
     get_post_info: UserPostsGet = Depends(),
     post_dao: PostDAO = Depends(),
 ) -> List[PostWOUser]:
     """"""
 
     return await post_dao.get_user_posts(
+        display_id=display_id,
         **get_post_info.model_dump()
     )
