@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.ext.hybrid import hybrid_method
+from sqlalchemy.orm import Mapped, mapped_column
 
 from api.db.base import Base
 from api.static import static
@@ -11,10 +12,10 @@ class TokenCode(Base):
 
     __tablename__ = "token_code"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"))
-    seal = Column(String(100))
-    is_used = Column(Boolean, default=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id", onupdate="CASCADE", ondelete="CASCADE"))
+    seal: Mapped[str] = mapped_column(String(100))
+    is_used: Mapped[bool] = mapped_column(Boolean, default=False)
 
     @hybrid_method
     def is_valid(self) -> bool:
