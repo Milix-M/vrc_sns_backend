@@ -17,6 +17,7 @@ alembic = "*"
 black = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 python-dotenv = "*"
+sqlalchemy-utils = "*"
 
 [dev-packages]
 
