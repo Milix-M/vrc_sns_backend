@@ -13,14 +13,14 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    display_id: Mapped[str] = mapped_column(String(15), unique=True)
-    username: Mapped[str] = mapped_column(String(50))
+    display_id: Mapped[str | None] = mapped_column(String(15), unique=True)
+    username: Mapped[str | None] = mapped_column(String(50))
     email: Mapped[EmailType] = mapped_column(EmailType, unique=True)
-    icon: Mapped[str]
-    header: Mapped[str]
-    date_of_birth: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=True)
-    profile: Mapped[str]
+    icon: Mapped[str | None]
+    header: Mapped[str | None]
+    date_of_birth: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True))
+    profile: Mapped[str | None]
     hashed_password: Mapped[str]
     is_initialized: Mapped[bool] = mapped_column(default=False)
 
