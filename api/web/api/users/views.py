@@ -47,7 +47,7 @@ async def update_user(
 
 @router.get("/{user_id}/info", response_model=UserBase)
 async def get_user_info(
-    user_id: str = Path(title="User id of the user to be retrieved"),
+    display_id: str = Path(title="User id of the user to be retrieved"),
     user_dao: UserDAO = Depends(),
 ) -> UserBase:
     """
@@ -59,7 +59,7 @@ async def get_user_info(
     Returns:
         UserBase: return UserBase schema.
     """
-    userdata = await user_dao.get_user_by_userid(userid=user_id)
+    userdata = await user_dao.get_user_by_display_id(display_id=display_id)
 
     if userdata:
         return userdata
