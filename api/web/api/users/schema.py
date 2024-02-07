@@ -5,14 +5,23 @@ from typing import Optional
 class UserBase(BaseModel):
     id: int
     username: str
-    userid: str | None
+    display_id: str | None
     icon: str | None
     header: str | None
     profile: str | None
 
 
-class UserCreate(UserBase):
+class UserCreate(BaseModel):
+    """
+    /api/signin用
+    """
+    username: str
+    display_id: str
     password: str
+    email: str
+    icon: str | None
+    header: str | None
+    profile: str | None
 
 
 class User(UserBase):
@@ -29,4 +38,4 @@ class SessionUser(AuthenticatedUser):
 # ユーザー情報アップデート時用schema
 class UserUpdate(BaseModel):
     username: str | None = None
-    userid: str | None = None
+    display_id: str | None = None
