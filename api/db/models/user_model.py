@@ -1,7 +1,7 @@
 from typing import Any
-from datetime import datetime
+from datetime import date
 
-from sqlalchemy import String, DateTime
+from sqlalchemy import String, DateTime, Date
 from sqlalchemy.ext.hybrid import hybrid_method
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy_utils import EmailType
@@ -18,8 +18,8 @@ class User(Base):
     email: Mapped[EmailType] = mapped_column(EmailType, unique=True)
     icon: Mapped[str | None]
     header: Mapped[str | None]
-    date_of_birth: Mapped[datetime | None] = mapped_column(
-        DateTime(timezone=True))
+    date_of_birth: Mapped[date | None] = mapped_column(
+        Date())
     profile: Mapped[str | None]
     hashed_password: Mapped[str]
     is_initialized: Mapped[bool] = mapped_column(default=False)
