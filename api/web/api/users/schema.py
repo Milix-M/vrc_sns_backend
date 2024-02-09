@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import date, datetime
 from typing import Optional
 
 
@@ -9,6 +10,8 @@ class UserBase(BaseModel):
     icon: str | None
     header: str | None
     profile: str | None
+    date_of_birth: date | None
+    created_at: datetime
 
 
 class UserCreate(BaseModel):
