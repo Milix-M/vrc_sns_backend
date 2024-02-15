@@ -42,3 +42,5 @@ class SessionUser(AuthenticatedUser):
 class UserUpdate(BaseModel):
     username: str | None = None
     display_id: str | None = None
+    profile: str | None = None
+    date_of_birth: str | None = None
