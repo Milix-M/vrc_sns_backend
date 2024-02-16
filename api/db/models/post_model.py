@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 
 class Post(Base):
+    """Model for Post data."""
     __tablename__ = "posts"
 
     postid: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
