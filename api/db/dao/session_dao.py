@@ -27,10 +27,16 @@ class SessionDAO:
         self.session = session
 
     async def get(self, session_id: int) -> Optional[SessionModel]:
+        """
+        This function reads a session with the given id.
+        """
         session = await self.session.get(SessionModel, session_id)
         return session
 
     async def create(self, user_id: int) -> Dict[str, str]:
+        """
+        This function creates a new session for the given user id.
+        """
         user: Optional[User] = await self.session.get(User, user_id)
 
         if user is None:
@@ -69,6 +75,9 @@ class SessionDAO:
         return session_cert
 
     def generate_access_token(self, user_model: User) -> str:
+        """
+        This function generates an access token for the given user model.
+        """
         return create_token(
             data={
                 "token_type": "token",
@@ -81,6 +90,9 @@ class SessionDAO:
         )
 
     def generate_refresh_token(self, user_model: User) -> str:
+        """
+        This function generates a refresh token for the given user model.
+        """
         return create_token(
             data={
                 "token_type": "refresh_token",
@@ -91,6 +103,9 @@ class SessionDAO:
         )
 
     async def get_from_session_cert(self, session_cert: str) -> Optional[SessionModel]:
+        """
+        This function retrieves a session model from the given session certificate.
+        """
         query = select(SessionModel)
         query = query.filter(SessionModel.session_cert == session_cert)
         row = await self.session.execute(query)
@@ -100,6 +115,9 @@ class SessionDAO:
     async def get_from_refresh_token(
         self, refresh_token: str
     ) -> Optional[SessionModel]:
+        """
+        This function retrieves a session model from the given refresh token.
+        """
         query = select(SessionModel)
         query = query.filter(SessionModel.refresh_token == refresh_token)
         row = await self.session.execute(query)
@@ -107,6 +125,9 @@ class SessionDAO:
         return row.scalar_one_or_none()
 
     async def expire(self, session_id: int) -> None:
+        """
+        This function expires a session with the given session id.
+        """
         session = await self.get(session_id=session_id)
 
         if session is not None:
@@ -118,6 +139,9 @@ class SessionDAO:
             raise SessionNotFoundError()
 
     async def expire_from_session_cert(self, session_cert: str) -> None:
+        """
+        This function expires a session with the given session certificate.
+        """
         session = await self.get_from_session_cert(session_cert=session_cert)
 
         if session is None:
@@ -126,6 +150,9 @@ class SessionDAO:
         await self.expire(session.id)
 
     async def expire_from_refresh_token(self, refresh_token: str) -> None:
+        """
+        This function expires a session with the given refresh token.
+        """
         session = await self.get_from_refresh_token(refresh_token=refresh_token)
 
         if session is None:
@@ -134,6 +161,9 @@ class SessionDAO:
         await self.expire(session.id)
 
     async def is_session_cert_exist(self, session_cert: str) -> bool:
+        """
+        This function checks if the specified session certificate exists.
+        """
         query = select(SessionModel)
         query = query.filter(SessionModel.session_cert == session_cert)
         row = await self.session.execute(query)

@@ -20,10 +20,13 @@ class UserDAO:
         email: str,
         password: str
     ) -> User:
+        """
+        This function creates a new user with the given display id, username, email, and password.
+        If the password is not provided, the user is created for Google login.
+        """
         if password:
             user = User(display_id=display_id, username=username, email=email,
                         hashed_password=get_password_hash(password))
-        # Googleログイン用
         else:
             user = User(display_id=display_id, username=username, email=email,
                         hashed_password="")

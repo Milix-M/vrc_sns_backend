@@ -87,7 +87,9 @@ async def user_posts(
     get_post_info: UserPostsGet = Depends(),
     post_dao: PostDAO = Depends(),
 ) -> List[PostWOUser]:
-    """"""
+    """
+    Get user posts.
+    """
 
     return await post_dao.get_user_posts(
         display_id=display_id,
