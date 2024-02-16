@@ -15,6 +15,17 @@ async def is_authenticated(
         session_id: str = Cookie(default=None),
         authorization: Optional[str] = Header(default=None),
 ) -> "SessionUser":
+    """Middleware function to check if the user is authenticated.
+
+    This function checks the provided authorization credentials
+    and returns the authenticated user if the credentials are valid.
+    :param user_dao: The UserDAO instance to use for user authentication.
+    :param access_token: The access token from the cookie (default: None).
+    :param session_id: The session ID from the cookie (default: None).
+    :param authorization: The authorization header (default: None).
+    :returns: The authenticated user if the credentials are valid.
+    :raises: HTTPException if the credentials are missing, expired, or invalid.
+    """
     from api.web.api.users.schema import SessionUser
 
     if authorization is None and access_token is None:
