@@ -17,6 +17,21 @@ async def generate_token(
     token_code_dao: TokenCodeDAO = Depends(),
     session_dao: SessionDAO = Depends(),
 ) -> Response:
+    """
+    Function to generate a token from a token code.
+
+    This function first retrieves the token code from the database using the seal from the request.
+    If the token code is not found, it raises a 400 Bad Request error.
+    If the token code is valid, it expires the token code, creates a new session, and returns the session info.
+    The session info is returned as a JSON response and also set as a cookie in the response.
+
+    :param token_code_dto: The token code DTO from the request.
+    :param token_code_dao: The Data Access Object for token codes, obtained through dependency injection.
+    :param session_dao: The Data Access Object for sessions, obtained through dependency injection.
+    :returns: The session info as a JSON response with cookies set.
+    :raises: HTTPException with status code 400 if the token code is not found.
+    :raises: HTTPException with status code 401 if the token code is expired.
+    """
     token_code = await token_code_dao.get_code_from_seal(seal=token_code_dto.seal)
 
     if token_code is None:
@@ -61,7 +76,21 @@ async def generate_jwt_token(
     session_dao: SessionDAO = Depends(),
     session_id: str = Cookie(default=None),
 ) -> Response:
-    """Function to generate a JWT token from refresh token."""
+    """
+    This function is used to generate a new JWT token from a refresh token.
+    It first checks if the session_id is present in the request.
+    If the session_id is not found, it raises a 400 Bad Request error.
+    If the session_id is valid, it generates a new access token and sets it as a cookie in the response.
+    The response is returned as a JSON response.
+
+    :param token_dto: The token DTO from the request.
+    :param user_dao: The Data Access Object for users, obtained through dependency injection.
+    :param session_dao: The Data Access Object for sessions, obtained through dependency injection.
+    :param session_id: The session ID from the request, obtained through dependency injection.
+    :returns: The response with the new access token set as a cookie.
+    :raises: HTTPException with status code 400 if the session_id is not found.
+    :raises: HTTPException with status code 401 if the session_id is expired.
+    """
     if session_id is None and token_dto.session_id is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
