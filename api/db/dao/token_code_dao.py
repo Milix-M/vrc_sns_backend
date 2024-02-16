@@ -20,8 +20,12 @@ class TokenCodeDAO:
 
     def __init__(self, session: AsyncSession = Depends(get_db_session)):
         self.session = session
-
     async def generate_seal(self, nbytes: Optional[int] = 64) -> str:
+        """
+        This function generates a unique seal for the token code.
+        The seal is a URL-safe string of random bytes.
+        If the seal already exists and is not expired, a new seal is generated.
+        """
         seal = secrets.token_urlsafe(nbytes)
 
         if await self.is_seal_exist_in_not_expired(seal):
@@ -42,6 +46,10 @@ class TokenCodeDAO:
         return code
 
     async def get_code_from_seal(self, seal: str) -> Optional[TokenCode]:
+        """
+        This function retrieves a token code from the given seal.
+        The token code must not be used and the seal must match.
+        """
         query = select(TokenCode)
         query = query.filter(
             and_(TokenCode.seal == seal, TokenCode.is_used == False),
@@ -51,6 +59,11 @@ class TokenCodeDAO:
         return rows.scalar_one_or_none()
 
     async def expire_code(self, token_code_id: int) -> None:
+        """
+        This function expires a token code with the given token code id.
+        If the token code is not found, a SealNotFoundError is raised.
+        If the token code is already expired, a SealAlreadyExpiredError is raised.
+        """
         token_code: Optional[TokenCode] = await self.get_code(token_code_id)
         if token_code is not None:
             if not token_code.is_valid():
@@ -60,7 +73,10 @@ class TokenCodeDAO:
         else:
             raise SealNotFoundError()
 
-    async def is_seal_exist(self, seal: str) -> None:
+    async def is_seal_exist(self, seal: str) -> bool:
+        """
+        This function checks if the specified seal exists in the database.
+        """
         query = select(TokenCode)
         query = query.filter(TokenCode.seal == seal)
         row = await self.session.execute(query)
@@ -68,6 +84,9 @@ class TokenCodeDAO:
         return row.scalar_one_or_none() is not None
 
     async def is_seal_exist_in_not_expired(self, seal: str) -> bool:
+        """
+        This function checks if the specified seal exists in the database and is not expired.
+        """
         query = select(TokenCode)
         query = query.filter(
             and_(TokenCode.seal == seal, TokenCode.is_valid() == false())
