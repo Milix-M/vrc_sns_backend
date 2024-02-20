@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from api.db.dao.post_dao import PostDAO
 
 from api.db.dao.user_dao import UserDAO
+from api.db.dao.user_follow_dao import FollowDAO
 from api.web.api.users.schema import AuthenticatedUser, UserBase, UserUpdate, User
 from api.web.api.post.schema import PostWOUser, UserPostsGet
 from api.libs.middleware.auth import is_authenticated
@@ -94,4 +95,40 @@ async def user_posts(
     return await post_dao.get_user_posts(
         display_id=display_id,
         **get_post_info.model_dump()
+    )
+
+# follwersとfollowingsは統合するべきかもしれない
+
+@router.get("/{display_id}/followers")
+async def get_follwers(
+    display_id: str = Path(title="display id of the user to be retrieved"),
+    user_dao: UserDAO = Depends(),
+    follow_dao: FollowDAO = Depends(),
+) -> List[int]:
+    userdata = await user_dao.get_user_by_display_id(display_id=display_id)
+
+    if userdata is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="user is not found."
+        )
+
+    return await follow_dao.get_user_followers(
+        userdata.id
+    )
+
+@router.get("/{display_id}/followings")
+async def get_follwers(
+    display_id: str = Path(title="display id of the user to be retrieved"),
+    user_dao: UserDAO = Depends(),
+    follow_dao: FollowDAO = Depends(),
+) -> List[int]:
+    userdata = await user_dao.get_user_by_display_id(display_id=display_id)
+
+    if userdata is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="user is not found."
+        )
+
+    return await follow_dao.get_user_following(
+        userdata.id
     )
