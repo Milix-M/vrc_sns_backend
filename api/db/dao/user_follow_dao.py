@@ -29,21 +29,30 @@ class FollowDAO:
 
         return rows.scalars().all()
 
-    async def check_aleady_following(self, follower_id:int, following_id: int):
+    async def check_aleady_following(self, follower_id: int, following_id: int):
         query = select(FollowModel)
-        query = query.filter(FollowModel.follower_id == follower_id, FollowModel.following_id == following_id)
+        query = query.filter(FollowModel.follower_id == follower_id,
+                             FollowModel.following_id == following_id)
 
         row = await self.session.execute(query)
 
         return row.scalar_one_or_none()
 
-
     async def create_follow(self, follower_id: int, following_id: int) -> FollowModel:
-        new_follow = FollowModel(follower_id=follower_id, following_id=following_id)
+        new_follow = FollowModel(
+            follower_id=follower_id, following_id=following_id)
         self.session.add(new_follow)
         await self.session.commit()
 
-    # async def delete_follow(self, follower_id: int, following_id: int) -> None:
-    #     # Delete the relationship
-    #     self.session.delete(following_id)
-    #     await self.session.commit()
+    async def delete_follow(self, follower_id: int, following_id: int) -> None:
+        query = select(FollowModel)
+        query = query.filter(FollowModel.follower_id == follower_id,
+                             FollowModel.following_id == following_id)
+
+        # follow_data = await self.session.execute(select(FollowModel).where(FollowModel.follower_id == follower_id, FollowModel.following_id == following_id))
+        follow_row = await self.session.execute(query)
+        follow_row = follow_row.scalar_one_or_none()
+
+        if follow_row is not None:
+            await self.session.delete(follow_row)
+            await self.session.commit()
