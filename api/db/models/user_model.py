@@ -1,7 +1,7 @@
 from typing import Any
 from datetime import date
 
-from sqlalchemy import String, DateTime, Date
+from sqlalchemy import String, Date
 from sqlalchemy.ext.hybrid import hybrid_method
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy_utils import EmailType
