@@ -162,3 +162,31 @@ async def follow(
         )
 
     return {"status": "Followed successfully"}
+
+@router.delete("/{display_id}/unfollow")
+async def unfollow(
+    display_id: str = Path(title="display id of the user to be retrieved"),
+    user_info: AuthenticatedUser = Depends(is_authenticated),
+    user_dao: UserDAO = Depends(),
+    follow_dao: FollowDAO = Depends(),
+) -> None:
+    userdata = await user_dao.get_user_by_display_id(display_id=display_id)
+
+    if userdata is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="user is not found."
+        )
+    
+    # 自分自身をアンフォローできないようにする
+    if user_info.id == userdata.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="cannot unfollow yourself."
+        )
+
+    # フォローされているかチェックして削除しとく
+    if await follow_dao.check_aleady_following(follower_id=userdata.id, following_id=user_info.id):
+        await follow_dao.delete_follow(follower_id=userdata.id, following_id=user_info.id)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="not followed."
+        )
