@@ -50,8 +50,8 @@ class FollowDAO:
                              FollowModel.following_id == following_id)
 
         # follow_data = await self.session.execute(select(FollowModel).where(FollowModel.follower_id == follower_id, FollowModel.following_id == following_id))
-        follow_row = await self.session.execute(query)
-        follow_row = follow_row.scalar_one_or_none()
+        follow_row = (await self.session.execute(query)).scalar_one_or_none()
+        # follow_row = follow_row.scalar_one_or_none()
 
         if follow_row is not None:
             await self.session.delete(follow_row)
