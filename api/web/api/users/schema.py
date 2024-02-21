@@ -11,6 +11,8 @@ class UserBase(BaseModel):
     header: str | None
     profile: str | None
     date_of_birth: date | None
+    followers_count: int
+    following_count: int
     created_at: datetime
 
 
