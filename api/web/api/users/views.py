@@ -104,7 +104,7 @@ async def get_follwers(
     display_id: str = Path(title="display id of the user to be retrieved"),
     user_dao: UserDAO = Depends(),
     follow_dao: FollowDAO = Depends(),
-) -> List[int]:
+):
     userdata = await user_dao.get_user_by_display_id(display_id=display_id)
 
     if userdata is None:
@@ -132,3 +132,33 @@ async def get_follwers(
     return await follow_dao.get_user_following(
         userdata.id
     )
+
+@router.post("/{display_id}/follow")
+async def follow(
+    display_id: str = Path(title="display id of the user to be retrieved"),
+    user_info: AuthenticatedUser = Depends(is_authenticated),
+    user_dao: UserDAO = Depends(),
+    follow_dao: FollowDAO = Depends(),
+):
+    userdata = await user_dao.get_user_by_display_id(display_id=display_id)
+
+    if userdata is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="user is not found."
+        )
+
+    # 自分自身をフォローできないようにする
+    if user_info.id == userdata.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="cannot follow yourself."
+        )
+
+    # すでにフォローされているかチェック
+    if await follow_dao.check_aleady_following(follower_id=userdata.id, following_id=user_info.id) is None:
+        await follow_dao.create_follow(follower_id=userdata.id, following_id=user_info.id)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="aleady following."
+        )
+
+    return {"status": "Followed successfully"}
