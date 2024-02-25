@@ -99,12 +99,12 @@ async def user_posts(
 
 # follwersとfollowingsは統合するべきかもしれない
 
-@router.get("/{display_id}/followers")
+@router.get("/{display_id}/followers", response_model=UserBase)
 async def get_follwers(
     display_id: str = Path(title="display id of the user to be retrieved"),
     user_dao: UserDAO = Depends(),
     follow_dao: FollowDAO = Depends(),
-):
+) -> List[UserBase]:
     userdata = await user_dao.get_user_by_display_id(display_id=display_id)
 
     if userdata is None:
@@ -116,12 +116,12 @@ async def get_follwers(
         userdata.id
     )
 
-@router.get("/{display_id}/followings")
+@router.get("/{display_id}/followings", response_model=UserBase)
 async def get_follwers(
     display_id: str = Path(title="display id of the user to be retrieved"),
     user_dao: UserDAO = Depends(),
     follow_dao: FollowDAO = Depends(),
-) -> List[int]:
+) -> List[UserBase]:
     userdata = await user_dao.get_user_by_display_id(display_id=display_id)
 
     if userdata is None:
