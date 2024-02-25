@@ -24,5 +24,5 @@ class FollowModel(Base):
     )
 
 
-    follower: Mapped["User"] = relationship("User", foreign_keys=[follower_id], back_populates='followers')
-    following: Mapped["User"] = relationship("User", foreign_keys=[following_id], back_populates='followings')
+    follower: Mapped["User"] = relationship("User", foreign_keys=[follower_id])
+    following: Mapped["User"] = relationship("User", foreign_keys=[following_id])

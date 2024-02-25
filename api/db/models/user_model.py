@@ -28,16 +28,16 @@ class User(Base):
     hashed_password: Mapped[str]
     is_initialized: Mapped[bool] = mapped_column(default=False)
 
-    followers: Mapped["FollowModel"] = relationship("FollowModel", foreign_keys='FollowModel.follower_id', back_populates='follower')
-    followings: Mapped["FollowModel"] = relationship("FollowModel", foreign_keys='FollowModel.following_id', back_populates='following')
+    # followers: Mapped["FollowModel"] = relationship("FollowModel", foreign_keys='FollowModel.follower_id', back_populates='follower')
+    # followings: Mapped["FollowModel"] = relationship("FollowModel", foreign_keys='FollowModel.following_id', back_populates='following')
 
     @property
-    async def followers_count(self):
+    def followers_count(self):
         # print(self.followers)
         # print(111111111111111)
         # print(self.followers)
-        return await self.followers.count()
-        # return 111
+        # return await self.followers.count()
+        return 111
     
     @property
     def following_count(self):
